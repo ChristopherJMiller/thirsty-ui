@@ -51,5 +51,5 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          file: Dockerfile.broker
+          file: Dockerfile
           labels: ${{ steps.meta.outputs.labels }}
