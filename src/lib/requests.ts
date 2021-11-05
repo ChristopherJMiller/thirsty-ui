@@ -1,5 +1,12 @@
 
-export const BROKER_URL = "http://localhost:8000"
+export const BROKER_URL = () => {
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:8000";
+  }
+
+  // This should get passed in
+  return "http://192.168.1.192:8000"
+}
 
 export interface Sensor {
   id: number,
@@ -18,7 +25,7 @@ export interface UpdateSensor {
 }
 
 export const getSensors = async (): Promise<Sensor[]> => {
-  let res = await fetch(BROKER_URL);
+  let res = await fetch(BROKER_URL());
   if (res.ok) {
     return await res.json();
   } else {
@@ -27,7 +34,7 @@ export const getSensors = async (): Promise<Sensor[]> => {
 }
 
 export const updateSensor = async (data: UpdateSensor): Promise<Sensor> => {
-  let res = await fetch(`${BROKER_URL}/update`, {
+  let res = await fetch(`${BROKER_URL()}/update`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
